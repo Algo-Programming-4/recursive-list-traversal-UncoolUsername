@@ -3,16 +3,18 @@
 case1 = [68, [2, 6, 3, 4, [9, 5, [3, 2, 7, 2], [4, 2, 5, 1]], [5, 8]]]
 case2 = [44, [2, 4, 6, 8, [[5, 4], [5, 7, 3]]]] 
 case3 = [12, [6, 4, 2]] 
-case4 = [14, [[1, 2], [1, 2]], [[1, 2], 5]] 
+case4 = [15, [[[1, 2], [1, 2]], [[1, 2], 6]]] 
 
 def recursive_method(list, sum=0):
+    """This function will add up all the numbers from a list of lists using recursion."""
     for i in list:
-        if type(i) == "list": # This is required so we can search nested lists. 
-            recursive_method(i, sum)
-            return
-        
-        sum += i
-    return sum 
+        if type(i) is int:
+            sum += i
+        else:
+            sum = recursive_method(i, sum)
+
+    # Return the output when we are finished with it
+    return sum
 
 
 def main():
@@ -22,9 +24,10 @@ def main():
         expected_output = cases[i][0]
         case_result = recursive_method(cases[i][1]) # cases[i][1] selects the list to search from each case table (seen above). This keeps the expected output seperate
 
-        print("Case:", i, "-" * 25, ">>")
+        print("Case:", i+1, "-" * 25, ">>")
         print("Expected output:", expected_output)
         print("Receved output:", case_result)
         print("Passed:", case_result == expected_output, "\n") 
+
 
 main()
