@@ -1,9 +1,31 @@
 # First item in these lists stores the expected output/result. Second item stores
 # the loops to search.
-case1 = [68, [2, 6, 3, 4, [9, 5, [3, 2, 7, 2], [4, 2, 5, 1]], [5, 8]]]
-case2 = [44, [2, 4, 6, 8, [[5, 4], [5, 7, 3]]]] 
-case3 = [12, [6, 4, 2]] 
-case4 = [15, [[[1, 2], [1, 2]], [[1, 2], 6]]] 
+
+test_cases = {
+    "case0" : [[60, 4], [[[3, [4]], 6], 7, [10, 3], [4, [5, [2, 8]]], 8]],
+    "case1" : [[68, 3], [2, 6, 3, 4, [9, 5, [3, 2, 7, 2], [4, 2, 5, 1]], [5, 8]]],
+    "case2" : [[44, 3], [2, 4, 6, 8, [[5, 4], [5, 7, 3]]]] ,
+    "case3" : [[12, 2], [6, 4, 2]] ,
+    "case4" : [[15, 3], [[[1, 2], [1, 2]], [[1, 2], 6]]],
+}
+
+def check_list_length(list):
+    list = str(list)
+    max_depth = 0
+
+    table = {
+        "[" : 1,
+        "]" : -1,
+    }
+    for i in range(0, len(list)):
+        char = list[i].strip()
+
+        for e in table:
+            if char == e:
+                max_depth += table[char]
+
+        
+    return max_depth
 
 def recursive_method(list, sum=0):
     """This function will add up all the numbers from a list of lists using recursion."""
@@ -11,23 +33,28 @@ def recursive_method(list, sum=0):
         if type(i) is int:
             sum += i
         else:
+            print(check_list_length(i))
             sum = recursive_method(i, sum)
 
-    # Return the output when we are finished with it
     return sum
 
+recursive_method([[60, 4], [[[3, [4]], 6], 7, [10, 3], [4, [5, [2, 8]]], 8]])
 
-def main():
-    # This method will print the results of all the test
-    cases = [case1, case2, case3, case4]
-    for i in range(0, len(cases)):
-        expected_output = cases[i][0]
-        case_result = recursive_method(cases[i][1]) # cases[i][1] selects the list to search from each case table (seen above). This keeps the expected output seperate
+# def main():
+#     # This method will print the results of all the test
+#     for i in range(0, len(test_cases)):
+#         current_case = "case" + str(i)
 
-        print("Case:", i+1, "-" * 25, ">>")
-        print("Expected output:", expected_output)
-        print("Receved output:", case_result)
-        print("Passed:", case_result == expected_output, "\n") 
+#         expected_output = test_cases[current_case][0][0]
+#         case_result = recursive_method(test_cases[current_case][1]) # cases[i][1] selects the list to search from each case table (seen above). This keeps the expected output seperate
 
+#         # Note: This code is not ideal, it is quite hard to read. It would be 
+#         # better off put into a loop. 
+#         print("Case:", current_case[4], "-" * 25, ">>")
+#         print("Passed:", expected_output == case_result and current_case[0][1] == 0)
+#         print("Expected output:", test_cases[current_case][0][0])
+#         print("Receved output:", case_result)
+#         print("Expected depth:")
+#         print("Receved depth:\n")
 
-main()
+# main()
